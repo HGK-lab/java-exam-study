@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f2a37">
+<title>자바심화 시험 대비</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <h1>자바심화 시험 대비</h1>
+  <p class="sub">장을 골라 요약 → 암기카드 → 퀴즈 순서로 공부하세요.</p>
+</header>
+<main id="home" class="wrap"></main>
+<script src="data/chapters.js"></script>
+<script>
+  const home = document.getElementById('home');
+  home.innerHTML = window.CHAPTER_LIST.map(c => {
+    const ready = c.ready;
+    const wrong = (() => { try { return Object.keys(JSON.parse(localStorage.getItem('wrong-' + c.id) || '{}')).length; } catch { return 0; } })();
+    return `<a class="chapter ${ready ? '' : 'disabled'}" ${ready ? `href="chapter.html?ch=${c.id}"` : ''}>
+      <span class="num">${c.no}장</span>
+      <span class="ctitle">${c.title}</span>
+      <span class="meta">${ready ? (wrong ? `오답 ${wrong}개` : '학습 가능') : '준비 중'}</span>
+    </a>`;
+  }).join('');
+</script>
+</body>
+</html>
