@@ -523,7 +523,7 @@ a = a.{{5}}("C#","Java");               // a = "Java,C++"
 String s[] = a.{{6}}(",");              // s[0]="Java", s[1]="C++"`,
       blanks: ['length', 'contains', 'concat', 'trim', 'replace', 'split'],
       explain: 'length 길이, contains 포함 여부, concat 연결, trim 앞뒤 공백 제거, replace 대치, split 분리입니다.' },
-    { id: 'c7', prof: true, type: 'code', q: '스트링 비교 코드를 완성하세요. (53~54쪽) 출력: Java > C++',
+    { id: 'c7', prof: true, type: 'code', ex: '54쪽', q: '스트링 비교 코드를 완성하세요. (53~54쪽) 출력: 같다 / Java > C++',
       code: `String java = "Java";
 if(java.{{1}}("Java")) System.out.println("같다");
 
@@ -637,7 +637,7 @@ for (int i=0; i<5; i++)                  // [1, 45] 사이 정수 난수 5개
     { id: 'm1', prof: true, type: 'mcq', q: '== 연산자와 equals()에 대한 설명으로 옳은 것은?',
       choices: ['==는 레퍼런스를, equals()는 내용물을 비교한다', '==는 내용물을, equals()는 레퍼런스를 비교한다', '둘 다 내용물을 비교한다', '스트링 비교에는 ==를 써야 한다'], answer: 0,
       explain: '==는 같은 객체를 가리키는지, equals()는 내용이 같은지 비교합니다. 스트링 비교에 ==는 절대 금지입니다.' },
-    { id: 'm2', prof: true, type: 'mcq', mono: true, q: 'Point 클래스에서 equals()를 올바르게 오버라이딩한 선언은?',
+    { id: 'm2', prof: true, type: 'mcq', mono: true, ex: '6-3', q: 'Point 클래스에서 equals()를 올바르게 오버라이딩한 선언은?',
       choices: ['public boolean equals(Object obj)', 'public boolean equals(Point obj)', 'public int equals(Object obj)', 'boolean equal(Object obj)'], answer: 0,
       explain: '매개변수가 Point이면 오버라이딩이 아니라 오버로딩입니다. 이름, 리턴 타입, 매개변수가 Object의 것과 같아야 합니다.' },
     { id: 'm3', type: 'mcq', q: 'equals(Object obj) 안에서 (Point)obj로 캐스팅하는 이유는?',
@@ -684,11 +684,11 @@ for (int i=0; i<5; i++)                  // [1, 45] 사이 정수 난수 5개
       code: 'Rect a = new Rect(2,3);\nRect b = new Rect(3,2);\nRect c = new Rect(3,4);\nif(a.equals(b)) System.out.println("a is equal to b");\nif(a.equals(c)) System.out.println("a is equal to c");\nif(b.equals(c)) System.out.println("b is equal to c");',
       choices: ['a is equal to b', 'a is equal to c', '아무것도 출력 안 됨', 'a is equal to b\nb is equal to c'], answer: 0,
       explain: '면적 a=6, b=6, c=12이므로 a와 b만 같습니다.' },
-    { id: 'u4', prof: true, type: 'output', q: '출력 결과는? (toString 오버라이딩된 Point)',
+    { id: 'u4', prof: true, type: 'output', ex: '6-2', q: '출력 결과는? (toString 오버라이딩된 Point)',
       code: 'Point a = new Point(2,3);\nSystem.out.println(a + " 입니다.");',
       choices: ['Point(2,3) 입니다.', 'Point@15db9742 입니다.', 'a 입니다.', '컴파일 오류'], answer: 0,
       explain: '객체 + 문자열은 a.toString() + 문자열로 자동 변환됩니다.' },
-    { id: 'u5', prof: true, type: 'output', q: '출력 결과는? (54쪽)',
+    { id: 'u5', prof: true, type: 'output', ex: '54쪽', q: '출력 결과는? (54쪽)',
       code: 'String java = "Java";\nString cpp = "C++";\nint res = java.compareTo(cpp);\nif(res == 0) System.out.println("the same");\nelse if(res < 0) System.out.println(java + " < " + cpp);\nelse System.out.println(java + " > " + cpp);',
       choices: ['Java > C++', 'Java < C++', 'the same', '컴파일 오류'], answer: 0,
       explain: '"Java"가 "C++"보다 사전에 나중에 나오므로 양수가 리턴됩니다.' },

@@ -27,10 +27,16 @@
 
   // 녹음 안내(19:43~20:58) 기준: 약 25문항, 객관식 + 코드 빈칸 + 단답형
   const MIX = [
-    ['code', ['code'], 9],
-    ['short', ['short'], 8],
-    ['choice', ['mcq', 'output', 'blank', 'error', 'ox'], 8],
+    ['code', ['code'], 12],
+    ['short', ['short'], 7],
+    ['choice', ['mcq', 'output', 'blank', 'error', 'ox'], 6],
   ];
+
+  // 같은 예제에서 나온 문제는 모의고사에 하나만. 문제나 해설의 "예제 N-M", 없으면 데이터의 ex로 묶는다
+  const exOf = q => {
+    const m = q.ex || (q.q.match(/예제\s*(\d+-\d+)/) || q.explain.match(/예제\s*(\d+-\d+)/) || [])[1];
+    return m && q.ch + ':' + m;
+  };
 
   function home() {
     view.innerHTML = `
@@ -44,7 +50,7 @@
           <li class="maybe">처음부터 끝까지 코드 작성 없음, 서술형 이번엔 없음</li>
         </ul>
         <div class="typebar">
-          <span>모의고사 구성: 코드 빈칸 9 · 단답 8 · 객관식 8, 6·7·9장에서 고루, 교수님 강조 문제 우선</span>
+          <span>모의고사 구성: 코드 빈칸 12 · 단답 7 · 객관식 6, 6·7·9장에서 고루, 교수님 강조 문제 우선, 같은 예제는 한 문제만</span>
         </div>
         <button class="btn primary" id="mock" style="width:100%">모의고사 25문항 시작</button>
       </div>
@@ -140,7 +146,7 @@ class MyMouseAdapter extends MouseAdapter {
 
   // 각 장에서 교수님 강조 문제를 먼저, 장을 번갈아 가며 뽑는다
   function pick() {
-    const chosen = [];
+    const chosen = [], used = new Set();
     for (const [, types, n] of MIX) {
       const pools = shuffle(EXAM).map(ch => {
         const qs = window.CHAPTER_DATA[ch].quiz.filter(q => types.includes(q.type)).map(q => ({ ...q, ch }));
@@ -149,7 +155,11 @@ class MyMouseAdapter extends MouseAdapter {
       let k = 0;
       while (chosen.filter(q => types.includes(q.type)).length < n && pools.some(p => p.length)) {
         const p = pools[k++ % pools.length];
-        if (p.length) chosen.push(p.shift());
+        if (!p.length) continue;
+        const q = p.shift(), ex = exOf(q);
+        if (ex && used.has(ex)) continue;
+        if (ex) used.add(ex);
+        chosen.push(q);
       }
     }
     // 실제 시험지처럼 장 순서, 장 안에서는 객관식 → 단답 → 코드 빈칸

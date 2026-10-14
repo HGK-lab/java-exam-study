@@ -677,7 +677,9 @@ class MyActionListener {{2}} {{3}} {
       blanks: ['new', 'MouseAdapter', 'mousePressed', ');'],
       explain: '이름(MyMouseAdapter)을 없애고 new 뒤에 부모 이름 MouseAdapter를 씁니다. 녹음 10:40 "이름 없앴으니까 … 부모 이름을 대신 쓴다". MouseListener로 쓰면 5개를 다 구현해야 하므로 어댑터를 씁니다.' },
     { id: 'c7', prof: true, type: 'code', q: '리스너 작성 3단계 (19~20쪽): 리스너를 만들고 버튼에 등록하세요.',
-      code: IMP + `// 2. 이벤트 리스너 클래스 작성
+      code: IMP + `// 1. 이벤트와 리스너 선택: 버튼 클릭 → ActionEvent, ActionListener
+
+// 2. 이벤트 리스너 클래스 작성
 class MyActionListener {{1}} ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton b = (JButton)e.getSource();
@@ -701,7 +703,7 @@ public class ListenerSteps {
       code: IMP + `class InfoListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object obj = e.{{1}}();            // 이벤트 소스 (Object 타입)
-        JButton b = {{2}}e.getSource();     // 다운캐스팅해서 사용
+        JButton b = {{2}}obj;               // 다운캐스팅해서 사용
         String cmd = e.{{3}}();             // 액션 문자열
     }
 }
@@ -753,7 +755,7 @@ public class AddListeners {
       explain: 'public void actionPerformed(ActionEvent e) 하나뿐이라 ActionAdapter가 없습니다.' },
     { id: 's7', prof: true, type: 'short', q: '이벤트 객체에서 이벤트를 발생시킨 소스 컴포넌트를 알아내는 메소드 이름은?', answers: ['getSource', 'Object getSource()', 'e.getSource'],
       explain: 'Object 타입으로 리턴하므로 (JButton)e.getSource()처럼 다운캐스팅합니다.' },
-    { id: 's8', prof: true, type: 'short', q: '이름이 없이, 클래스 정의와 인스턴스 생성을 한번에 작성하는 클래스를 무엇이라 하나?', answers: ['익명 클래스', '익명클래스', 'anonymous class', 'anonymous', '익명 클래스(anonymous class)'],
+    { id: 's8', prof: true, type: 'short', q: '이름 없이 클래스 정의와 인스턴스 생성을 한번에 작성하는 클래스를 무엇이라 하나?', answers: ['익명 클래스', '익명클래스', 'anonymous class', 'anonymous', '익명 클래스(anonymous class)'],
       explain: '코드가 짧고 한 번만 사용하는 경우에 이용합니다.' },
     { id: 's9', prof: true, type: 'short', q: '클래스 안에 멤버처럼 작성하는 클래스로, 바깥 클래스의 멤버에 접근하기 쉬운 것은?', answers: ['내부 클래스', '내부클래스', 'inner class', 'innerclass', '내부 클래스(inner class)'],
       explain: '리스너를 특정 클래스에서만 사용할 때 적합합니다. 예제 9-2.' },
