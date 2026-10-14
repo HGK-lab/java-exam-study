@@ -131,3 +131,35 @@ table.m tr.hl { background: var(--prof-soft); border-radius: 8px; }
 .empty { text-align: center; color: var(--muted); padding: 32px 8px; }
 .wrong-item { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
 .wrong-item .ans { color: var(--good); font-weight: 700; }
+
+/* 코드 빈칸 / 단답형 */
+.sec { scroll-margin-top: 110px; }
+pre.codeq { font-size: .8rem; line-height: 2; white-space: pre; }
+.bnum { color: var(--prof); font-weight: 700; margin-right: 2px; }
+.bin, .sin {
+  font: inherit; font-family: ui-monospace, "Cascadia Code", Consolas, monospace; color: var(--text);
+  background: var(--card); border: 1px solid var(--accent); border-radius: 6px; padding: 1px 4px;
+}
+.bin { font-size: .8rem; min-width: 4ch; }
+.sin { width: 100%; font-size: 1rem; padding: 10px 12px; border-radius: 10px; }
+.bin.ok, .sin.ok { border-color: var(--good); background: var(--good-soft); }
+.bin.no, .sin.no { border-color: var(--bad); background: var(--bad-soft); text-decoration: line-through; }
+.fix { color: var(--good); font-weight: 700; margin-left: 4px; }
+.fill { color: var(--good); font-weight: 700; background: var(--good-soft); border-radius: 4px; padding: 0 3px; }
+
+/* 홈: 시험 범위 카드, 출제 제외 장 */
+.chapter.exam { border: 2px solid var(--prof); }
+.chapter.exam .num { color: var(--prof); background: var(--prof-soft); font-size: 1rem; }
+.chapter.excluded .meta { color: var(--bad); }
+
+/* 시험 범위 페이지 */
+.box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; }
+.box h2 { font-size: 1.05rem; margin: 0 0 6px; }
+.box ul { padding-left: 20px; margin: 6px 0; }
+.box li { margin: 4px 0; }
+.must { color: var(--prof); font-weight: 700; }
+.maybe { color: var(--muted); }
+.typebar { display: grid; gap: 4px; margin: 12px 0; text-align: left; font-size: .9rem; }
+b.pb { color: var(--prof); }
+.legend { font-size: .85rem; color: var(--muted); }
+.legend b.pb { font-weight: 700; }

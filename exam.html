@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f2a37">
+<title>자바심화 시험 범위</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="chead">
+  <div class="bar"><a class="back" href="index.html" aria-label="홈으로">‹</a><h1>시험 범위 · 모의고사</h1></div>
+</div>
+<main id="view" class="wrap"></main>
+<script src="data/chapters.js"></script>
+<script src="quiz.js"></script>
+<script src="data/ch06.js"></script>
+<script src="data/ch07.js"></script>
+<script src="data/ch09.js"></script>
+<script>
+(function () {
+  const view = document.getElementById('view');
+  const { esc, shuffle, store } = Quiz;
+  const EXAM = ['06', '07', '09'];
+  const no = ch => window.CHAPTER_LIST.find(c => c.id === ch).no;
+  const link = (ch, sec, text) => `<a href="chapter.html?ch=${ch}#${sec}">${text}</a>`;
+
+  // 녹음 안내(19:43~20:58) 기준: 약 25문항, 객관식 + 코드 빈칸 + 단답형
+  const MIX = [
+    ['code', ['code'], 9],
+    ['short', ['short'], 8],
+    ['choice', ['mcq', 'output', 'blank', 'error', 'ox'], 8],
+  ];
+
+  function home() {
+    view.innerHTML = `
+      <div class="box">
+        <h2>출제 형식 (녹음 안내)</h2>
+        <ul>
+          <li><b>약 25문항</b>, 시험지 3~4페이지</li>
+          <li><span class="must">코드 빈칸</span>: "코드 왕창 내고서 구멍 빵빵 뚫어놓고 채우는 거 좋아해요"</li>
+          <li><span class="must">단답형</span>: "단답형도 저 좋아하는 거 알죠"</li>
+          <li><span class="must">객관식</span> 몇 문제</li>
+          <li class="maybe">처음부터 끝까지 코드 작성 없음, 서술형 이번엔 없음</li>
+        </ul>
+        <div class="typebar">
+          <span>모의고사 구성: 코드 빈칸 9 · 단답 8 · 객관식 8, 6·7·9장에서 고루, 교수님 강조 문제 우선</span>
+        </div>
+        <button class="btn primary" id="mock" style="width:100%">모의고사 25문항 시작</button>
+      </div>
+
+      <div class="box">
+        <h2>장별 범위</h2>
+        <ul>
+          <li><b>6장</b> 모듈과 패키지 개념, 자바 패키지 활용: <b>30~62쪽</b> (Object부터)</li>
+          <li><b>7장</b> 컬렉션과 제네릭: 전체</li>
+          <li><b>8장</b> 스윙 기초: <span style="color:var(--bad)">출제 제외</span></li>
+          <li><b>9장</b> 이벤트 처리: <b>1~34쪽</b> (MouseAdapter까지, Key 이벤트 제외)</li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h2>꼭 나온다고 한 것 ${Quiz.PROF}</h2>
+        <p class="legend">눌러서 해당 요약으로 이동</p>
+        <h4>6장</h4>
+        <ul>
+          <li class="must">${link('06', 'tostring', 'toString()')} · ${link('06', 'equals', 'equals() 오버라이딩 (예제 6-3 굵은 글씨)')}</li>
+          <li class="must">${link('06', 'wrapper', 'Wrapper: parseInt 같은 변환 메소드')} · ${link('06', 'boxing', '박싱/언박싱')}</li>
+          <li class="must">${link('06', 'strmethod', 'String 주요 메소드 (52쪽)')} · ${link('06', 'tokenizer', 'StringTokenizer (예제 6-7)')}</li>
+          <li class="maybe">${link('06', 'buffer', 'StringBuffer')} · ${link('06', 'math', 'Math')}: "낼 수도 안 낼 수도"</li>
+          <li class="maybe">녹음 15:33 "캐릭터(?)에서 사용하는 메소드"가 String인지 Character인지 불확실 → 둘 다 외우기</li>
+        </ul>
+        <h4>7장</h4>
+        <ul>
+          <li class="must">${link('07', 'vector', 'Vector')} 또는 ${link('07', 'arraylist', 'ArrayList')} 중 하나 (사용법 같음)</li>
+          <li class="must">메모: <code>void add(int index, E element)</code>, <code>E get(int index)</code>, <code>int size()</code></li>
+          <li class="must">${link('07', 'hashmap', 'HashMap')}: "너무 중요해요" · ${link('07', 'iterator', 'Iterator')}와 같이</li>
+        </ul>
+        <h4>9장</h4>
+        <ul>
+          <li class="must">${link('09', 'evobj', 'ActionEvent, getSource()')} · ${link('09', 'steps', '리스너 작성 3단계, addXXXListener')}</li>
+          <li class="must">${link('09', 'inner', '내부 클래스 (예제 9-2)')} · ${link('09', 'anon', '익명 클래스 (예제 9-3)')}</li>
+          <li class="must">${link('09', 'adapter', '어댑터 클래스 표, MouseAdapter (예제 9-5)')}</li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h2>외울 코드 패턴</h2>
+        <h4>equals / toString 오버라이딩 (6장)</h4>
+        <pre><code>public boolean equals(Object obj) {
+    Point p = (Point)obj;
+    if(x == p.x &amp;&amp; y == p.y) return true;
+    else return false;
+}
+public String toString() {
+    return "Point(" + x + "," + y + ")";
+}</code></pre>
+        <h4>변환과 박싱 (6장)</h4>
+        <pre><code>int i = Integer.parseInt("123");      // 문자열 → 정수
+String s = Integer.toString(123);     // 정수 → 문자열
+Integer ten = Integer.valueOf(10);    // 박싱
+int n = ten.intValue();               // 언박싱</code></pre>
+        <h4>hasMoreTokens / hasNext 반복 (6·7장)</h4>
+        <pre><code>StringTokenizer st = new StringTokenizer(query, "&amp;");
+while(st.hasMoreTokens()) {
+    String token = st.nextToken();
+}
+Iterator&lt;Integer&gt; it = v.iterator();
+while(it.hasNext()) {
+    int n = it.next();
+}</code></pre>
+        <h4>HashMap 전체 출력 (7장)</h4>
+        <pre><code>Set&lt;String&gt; keys = dic.keySet();
+Iterator&lt;String&gt; it = keys.iterator();
+while(it.hasNext()) {
+    String key = it.next();
+    String value = dic.get(key);
+}</code></pre>
+        <h4>리스너 3가지 + 어댑터 (9장)</h4>
+        <pre><code>// 독립/내부 클래스
+class MyActionListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        JButton b = (JButton)e.getSource();
+    }
+}
+btn.addActionListener(new MyActionListener());
+
+// 익명 클래스
+btn.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) { ... }
+});
+
+// 어댑터
+class MyMouseAdapter extends MouseAdapter {
+    public void mousePressed(MouseEvent e) { ... }
+}</code></pre>
+      </div>`;
+    view.querySelector('#mock').onclick = startMock;
+  }
+
+  // 각 장에서 교수님 강조 문제를 먼저, 장을 번갈아 가며 뽑는다
+  function pick() {
+    const chosen = [];
+    for (const [, types, n] of MIX) {
+      const pools = shuffle(EXAM).map(ch => {
+        const qs = window.CHAPTER_DATA[ch].quiz.filter(q => types.includes(q.type)).map(q => ({ ...q, ch }));
+        return [...shuffle(qs.filter(q => q.prof)), ...shuffle(qs.filter(q => !q.prof))];
+      });
+      let k = 0;
+      while (chosen.filter(q => types.includes(q.type)).length < n && pools.some(p => p.length)) {
+        const p = pools[k++ % pools.length];
+        if (p.length) chosen.push(p.shift());
+      }
+    }
+    // 실제 시험지처럼 장 순서, 장 안에서는 객관식 → 단답 → 코드 빈칸
+    const order = q => MIX.findIndex(m => m[1].includes(q.type));
+    const rank = { choice: 0, short: 1, code: 2 };
+    return chosen.sort((a, b) => a.ch.localeCompare(b.ch) || rank[MIX[order(a)][0]] - rank[MIX[order(b)][0]]);
+  }
+
+  function startMock() {
+    const list = pick();
+    Quiz.run(view, list, {
+      wrongKey: q => 'wrong-' + q.ch,
+      label: q => no(q.ch) + '장',
+      onEnd(right, total, byType) {
+        const byCh = {};
+        list.forEach(q => { byCh[q.ch] = byCh[q.ch] || [0, 0]; byCh[q.ch][1]++; });
+        // 장별 맞은 수는 오답 저장소로 다시 계산한다
+        list.forEach(q => { if (!store.get('wrong-' + q.ch, {})[q.id]) byCh[q.ch][0]++; });
+        view.innerHTML = `<div class="qcard score"><div class="big">${right} / ${total}</div>
+          <p>${right === total ? '전부 맞혔어요!' : '틀린 문제는 각 장 오답노트에 저장됐어요.'}</p>
+          <div class="typebar">
+            ${Object.entries(byType).map(([t, [r, n]]) => `<span>${esc(t)}: ${r} / ${n}</span>`).join('')}
+            ${Object.entries(byCh).map(([ch, [r, n]]) => `<span>${no(ch)}장: ${r} / ${n}</span>`).join('')}
+          </div>
+          <div class="row" style="margin-bottom:8px"><button class="btn primary" id="again">새 모의고사</button><button class="btn" id="home">시험 범위로</button></div>
+          <div class="row">${EXAM.map(ch => `<button class="btn" data-wrong="${ch}">${no(ch)}장 오답</button>`).join('')}</div></div>`;
+        view.querySelector('#again').onclick = startMock;
+        view.querySelector('#home').onclick = () => { home(); window.scrollTo(0, 0); };
+        view.querySelectorAll('[data-wrong]').forEach(b => b.onclick = () => {
+          store.set('tab-' + b.dataset.wrong, 'wrong');
+          location.href = 'chapter.html?ch=' + b.dataset.wrong;
+        });
+      },
+    });
+  }
+
+  home();
+})();
+</script>
+</body>
+</html>

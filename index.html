@@ -16,13 +16,18 @@
 <script src="data/chapters.js"></script>
 <script>
   const home = document.getElementById('home');
-  home.innerHTML = window.CHAPTER_LIST.map(c => {
+  home.innerHTML = `<a class="chapter exam" href="exam.html">
+      <span class="num">시험</span>
+      <span class="ctitle">시험 범위 · 모의고사 25문항</span>
+      <span class="meta">6·7·9장 · 꼭 나오는 것 · 외울 코드 패턴</span>
+    </a>` + window.CHAPTER_LIST.map(c => {
     const ready = c.ready;
     const wrong = (() => { try { return Object.keys(JSON.parse(localStorage.getItem('wrong-' + c.id) || '{}')).length; } catch { return 0; } })();
-    return `<a class="chapter ${ready ? '' : 'disabled'}" ${ready ? `href="chapter.html?ch=${c.id}"` : ''}>
+    const status = c.excluded ? '출제 제외' : ready ? (wrong ? `오답 ${wrong}개` : '학습 가능') : '준비 중';
+    return `<a class="chapter ${ready ? '' : 'disabled'} ${c.excluded ? 'excluded' : ''}" ${ready ? `href="chapter.html?ch=${c.id}"` : ''}>
       <span class="num">${c.no}장</span>
       <span class="ctitle">${c.title}</span>
-      <span class="meta">${ready ? (wrong ? `오답 ${wrong}개` : '학습 가능') : '준비 중'}</span>
+      <span class="meta">${c.pages ? c.pages + ' · ' : ''}${status}</span>
     </a>`;
   }).join('');
 </script>
