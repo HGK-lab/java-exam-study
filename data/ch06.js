@@ -199,10 +199,6 @@ String s4 = Character.«toString('a');»    // "a"
 String s5 = Boolean.«toString(true);»     // "true"`)}
         <h4>예제 6-5 Wrapper 클래스 활용</h4>
         ${C(`
-System.out.println(«Character.toLowerCase('A')»);  // a
-char c1='4', c2='F';
-if(«Character.isDigit(c1)») System.out.println(c1 + "는 숫자");      // 4는 숫자
-if(«Character.isAlphabetic(c2)») System.out.println(c2 + "는 영문자"); // F는 영문자
 System.out.println(«Integer.parseInt("28")»);       // 28
 System.out.println(«Integer.toString(28)»);         // 28
 System.out.println(«Integer.toBinaryString(28)»);   // 11100
@@ -214,8 +210,7 @@ System.out.println(«d.toString()»);                 // 3.14
 System.out.println(«Double.parseDouble("3.14")»);   // 3.14
 «boolean b = (4>3);»
 System.out.println(«Boolean.toString(b)»);          // true
-System.out.println(«Boolean.parseBoolean("false")»);// false`)}
-        <div class="tip">녹음 15:33 "캐릭터(?)에서 사용하는 메소드 되게 중요"가 Character 메소드(${I('toLowerCase')}, ${I('isDigit')}, ${I('isAlphabetic')})를 말한 것일 수도 있어서 같이 외워 두세요.</div>`,
+System.out.println(«Boolean.parseBoolean("false")»);// false`)}`,
     },
     {
       id: 'boxing', title: '6. 박싱과 언박싱 (47~48쪽)', prof: true,
@@ -418,7 +413,6 @@ int m = r.nextInt(100);   // 0~99`)}
     { q: '박싱이란', a: '기본 타입의 값을 Wrapper 객체로 변환하는 것', prof: true },
     { q: '언박싱이란', a: 'Wrapper 객체에 들어 있는 기본 타입의 값을 빼내는 것', prof: true },
     { q: '자동 박싱/언박싱 도입 버전', a: 'JDK 1.5' },
-    { q: 'Character: 소문자로 / 숫자인지 / 영문자인지', a: 'toLowerCase / isDigit / isAlphabetic' },
     { q: '스트링 리터럴은 어디에 저장되나', a: 'JVM의 리터럴 테이블 (공유됨)', note: 'new String()은 힙, 공유 안 됨' },
     { q: 'index 위치의 문자 리턴', a: 'char charAt(int index)', prof: true },
     { q: '사전 순 비교, 같으면 0', a: 'int compareTo(String anotherString)', prof: true },
@@ -567,17 +561,6 @@ sb.{{3}}(8, 10, "your");      // sb = "This is your pencil."
 System.out.println(sb);`,
       blanks: ['append', 'insert', 'replace'],
       explain: 'append 뒤에 붙이기, insert(위치, 문자열) 삽입, replace(시작, 끝, 문자열) 대치입니다. StringBuffer는 문자열 자체가 바뀝니다.' },
-    { id: 'c10', type: 'code', q: '예제 6-5: Character 메소드를 채우세요.',
-      code: `System.out.println(Character.{{1}}('A'));     // a
-char c1='4', c2='F';
-if(Character.{{2}}(c1))
-    System.out.println(c1 + "는 숫자");
-if(Character.{{3}}(c2))
-    System.out.println(c2 + "는 영문자");
-System.out.println(Integer.{{4}}(28));        // 11100`,
-      blanks: ['toLowerCase', 'isDigit', 'isAlphabetic', 'toBinaryString'],
-      explain: 'toLowerCase 소문자 변환, isDigit 숫자 판별, isAlphabetic 영문자 판별, toBinaryString 2진수 문자열입니다.' },
-
     { id: 'c11', type: 'code', q: '예제 6-1: Object 메소드로 클래스 이름, 해시 코드, 문자열을 출력하세요.',
       code: `Point p = new Point(2,3);
 System.out.println(p.{{1}}().getName());  // Point
